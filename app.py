@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, url_for, jsonify, send_file
 import io
 from PIL import Image
 app = Flask(__name__)
+import os
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -26,3 +27,10 @@ def getPhotos():
     except:
         print("Unable to load image")
         return ""
+
+@app.route("/getPhotoCount", methods=["GET", "POST"])
+def getPhotoCount():
+    dir = "photos/"
+    count = len([name for name in os.listdir(dir) if os.path.isfile(os.path.join(dir, name))])
+    print(count)
+    return jsonify(count)
